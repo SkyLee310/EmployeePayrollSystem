@@ -1,5 +1,22 @@
-def load_data():
-    pass
+import pandas as pd
+import openpyxl
+
+#initialize variable
+EPF=0.11
+SOCSO=0.005
+
+def load_data(filename):
+    df=None
+    try:
+        df=pd.read_excel(filename)
+    except FileNotFoundError:
+        print("File does not found! Check whether filepath is valid.")
+
+    if df is not None:
+        print("Employee Database")
+        print(df.head())
+
+    return df
 
 def working_hours():
     pass
@@ -29,4 +46,7 @@ def employee_info():
     pass
 
 def main():
-    pass
+    load_data("employee_data.xlsx")
+
+if __name__=="__main__":
+    main()
