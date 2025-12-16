@@ -87,14 +87,12 @@ def remove_employee(filename):
 def update_employee():
     pass
 
-def employee_info():
-    pass
 
 def main():
     filename="employee_data.xlsx"
     while True:
         print("Employee Payroll Management System")
-        print("A.Load File\nB.Adding Employee\nC.Remove Employee\nTo Exit, Type X")
+        print("A.Load File\nB.Adding Employee\nC.Remove Employee\nD.Update Employee's Information\nTo Exit, Type X")
         choice=input("What action you want to do: ")
         if choice=='A':
             load_data(filename)
