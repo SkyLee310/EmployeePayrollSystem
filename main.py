@@ -25,5 +25,8 @@ def remove_employee():
 def update_employee():
     pass
 
+def employee_info():
+    pass
+
 def main():
     pass
