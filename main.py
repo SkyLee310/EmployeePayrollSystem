@@ -1,5 +1,3 @@
-from fileinput import filename
-
 import pandas as pd
 import openpyxl
 import warnings
@@ -83,9 +81,40 @@ def remove_employee(filename):
         print("The action has been canceled\n")
 
 
+def update_employee(filename):
 
-def update_employee():
-    pass
+    df=pd.read_excel(filename)
+
+    id_row=input("Which employee's info you want to update(ID): ")
+    index_row_update = df[df['employee_id'].astype(str) == id_row]
+
+    if len(index_row_update) == 0:
+        print(f"Employee {id_row} was not found!\n")
+        return
+
+    row_index=index_row_update.index[0]
+
+    valid_cols=['name','hourly_rate','standard_hours','overtime_rate']
+    print(f"Select a column to update:{valid_cols}")
+    column_name=input("Column: ")
+
+    if column_name not in valid_cols:
+        print(f"{column_name} are not exist!\n")
+        return
+
+    info=input(f"Type your update info for {column_name}: ")
+
+    if column_name in ['hourly_rate', 'standard_hours', 'overtime_rate']:
+        try:
+            info = float(info)
+        except ValueError:
+            print(f"Error: {column_name} requires a number. Update cancelled.")
+            return
+
+    df.loc[row_index,column_name]=info
+
+    print(f"Info {column_name} for Employee {id_row} has updated to {info}\n\n")
+    df.to_excel(filename, index=False)
 
 
 def main():
@@ -100,6 +129,8 @@ def main():
             add_employee(filename)
         elif choice=='C':
             remove_employee(filename)
+        elif choice=='D':
+            update_employee(filename)
         elif choice=='X':
             break
 
