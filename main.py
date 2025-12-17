@@ -92,8 +92,8 @@ def remove_employee(filename):
 
     df=pd.read_excel(filename)
 
-    id=input("Employee you want to remove (ID): ")
-    index_to_remove=df[df['employee_id'].astype(str)==id].index
+    id=int(input("Employee you want to remove (ID): "))
+    index_to_remove=df[df['employee_id']==id].index
 
     if len(index_to_remove)==0:
         print(f"Employee {id} was not found!\n")
@@ -113,8 +113,8 @@ def update_employee(filename):
 
     df=pd.read_excel(filename)
 
-    id_row=input("Which employee's info you want to update(ID): ")
-    index_row_update = df[df['employee_id'].astype(str) == id_row]
+    id_row=int(input("Which employee's info you want to update(ID): "))
+    index_row_update = df[df['employee_id']==id_row]
 
     if len(index_row_update) == 0:
         print(f"Employee {id_row} was not found!\n")
