@@ -22,8 +22,33 @@ def load_data(filename):
 
     return df
 
-def working_hours():
-    pass
+def working_hours(filename):
+    df=pd.read_excel(filename)
+    id=input("Which employee working hours need to be calculate(ID): ")
+
+    index_row_update = df[df['employee_id'].astype(str) == id]
+
+    if len(index_row_update) == 0:
+        print(f"Employee {id} was not found!\n")
+        return
+
+    row_index = index_row_update.index[0]
+
+    standard_hours = df.loc[row_index, "standard_hours"]
+    actual_work_time=float(input("Input actual work time: "))
+
+
+    if actual_work_time>standard_hours:
+        normal_hours=standard_hours
+        ot_hours=actual_work_time-standard_hours
+    else:
+        normal_hours=actual_work_time
+        ot_hours=0
+
+    print(f"Normal Pay Work Time: {normal_hours:.1f} hours")
+    print(f"Overtime Pay Work Time: {ot_hours:.1f} hours\n\n")
+
+    return normal_hours, ot_hours, id
 
 def gross_pay():
     pass
@@ -34,7 +59,10 @@ def deductions():
 def net_salary():
     pass
 
-def generate_payslip():
+def generate_payslip(filename):
+
+    print("---------Generate Payslip System-----------")
+    normal_hours, ot_hours, employee_id = working_hours(filename)
     pass
 
 def add_employee(filename):
@@ -121,7 +149,8 @@ def main():
     filename="employee_data.xlsx"
     while True:
         print("Employee Payroll Management System")
-        print("A.Load File\nB.Adding Employee\nC.Remove Employee\nD.Update Employee's Information\nTo Exit, Type X")
+        print("A.Load File\nB.Adding Employee\nC.Remove Employee\nD.Update Employee's Information\nE.Generate Pay Slip\n"
+              "To Exit, Type X")
         choice=input("What action you want to do: ")
         if choice=='A':
             load_data(filename)
@@ -131,6 +160,8 @@ def main():
             remove_employee(filename)
         elif choice=='D':
             update_employee(filename)
+        elif choice=='E':
+            pass #generate_payslip(filename)
         elif choice=='X':
             break
 
