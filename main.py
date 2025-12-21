@@ -4,10 +4,6 @@ import warnings
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-#initialize variable
-EPF=0.11
-SOCSO=0.005
-
 def load_data(filename):
     df=None
     try:
@@ -50,10 +46,24 @@ def working_hours(filename):
 
     return normal_hours, ot_hours, id
 
-def gross_pay():
-    pass
+def gross_pay(filename,normal_hours,ot_hours,employee_id):
+    df=pd.read_excel(filename)
+    row_index = df[df['employee_id'].astype(str) == employee_id]
 
-def deductions():
+    normal_pay=normal_hours*(df.loc[row_index,"hourly_rate"])
+    ot_pay=ot_hours*(df.loc[row_index,'overtime_rate'])
+    total_gross_pay=normal_pay+ot_pay
+
+    print(f"Normal Hours Paid:{normal_pay}")
+    print(f"OT Hours Paid:{ot_pay}")
+    print(f"Total Gross Pay: {total_gross_pay}")
+
+    return total_gross_pay
+
+def deductions(filename):
+    EPF = 0.11
+    SOCSO = 0.005
+
     pass
 
 def net_salary():
@@ -63,6 +73,7 @@ def generate_payslip(filename):
 
     print("---------Generate Payslip System-----------")
     normal_hours, ot_hours, employee_id = working_hours(filename)
+    total_gross_pay = gross_pay(filename,normal_hours,ot_hours,employee_id)
     pass
 
 def add_employee(filename):
