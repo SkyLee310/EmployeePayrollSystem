@@ -48,33 +48,45 @@ def working_hours(filename):
 
 def gross_pay(filename,normal_hours,ot_hours,employee_id):
     df=pd.read_excel(filename)
-    row_index = df[df['employee_id'].astype(str) == employee_id]
+
+    row_index = df[df['employee_id'].astype(str) == employee_id].index[0]
 
     normal_pay=normal_hours*(df.loc[row_index,"hourly_rate"])
     ot_pay=ot_hours*(df.loc[row_index,'overtime_rate'])
     total_gross_pay=normal_pay+ot_pay
 
-    print(f"Normal Hours Paid:{normal_pay}")
-    print(f"OT Hours Paid:{ot_pay}")
-    print(f"Total Gross Pay: {total_gross_pay}")
+    print(f"Normal Hours Paid: RM{normal_pay:.2f}")
+    print(f"OT Hours Paid: RM{ot_pay:.2f}")
+    print(f"Total Gross Pay: RM{total_gross_pay:.2f}")
 
     return total_gross_pay
 
-def deductions(filename):
+def deductions(total_gross_pay):
     EPF = 0.11
     SOCSO = 0.005
 
-    pass
+    EPF_deduct=total_gross_pay*EPF
+    SOCSO_deduct=total_gross_pay*SOCSO
+    print(f"Deduct EPF RM{EPF_deduct}")
+    print(f"Deduct SOCSO RM{SOCSO_deduct}")
+    after_deduct_pay=total_gross_pay-EPF_deduct-SOCSO_deduct
+    return after_deduct_pay
 
-def net_salary():
-    pass
+
+def net_salary(after_deduct_pay):
+    print(f"Your Net Salary is RM{after_deduct_pay:.2f}\n\n")
 
 def generate_payslip(filename):
-
+    df=pd.read_excel(filename)
     print("---------Generate Payslip System-----------")
     normal_hours, ot_hours, employee_id = working_hours(filename)
+    row_index = df[df['employee_id'].astype(str) == employee_id].index[0]
+    print(f"Employee's {df.loc[row_index,'name']} Payslip")
     total_gross_pay = gross_pay(filename,normal_hours,ot_hours,employee_id)
-    pass
+    after_deduct_pay= deductions(total_gross_pay)
+    print("After Deduct EPF and SOCSO:")
+    net_salary(after_deduct_pay)
+
 
 def add_employee(filename):
 
@@ -172,7 +184,7 @@ def main():
         elif choice=='D':
             update_employee(filename)
         elif choice=='E':
-            pass #generate_payslip(filename)
+            generate_payslip(filename)
         elif choice=='X':
             break
 
