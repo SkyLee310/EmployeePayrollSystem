@@ -220,9 +220,9 @@ def remove_employee(employee_file):
 
     df=pd.read_excel(employee_file)
 
-    id=int(input("Employee you want to remove (ID): "))
+    id=str(input("Employee you want to remove (ID): ")).strip()
 
-    index_to_remove=df[df['employee_id']==id].index
+    index_to_remove=df[df['employee_id'].astype(str)==id].index
 
     if len(index_to_remove)==0:
         print(f"\n[!] Employee {id} was not found!\n")
@@ -249,8 +249,8 @@ def update_employee(employee_file):
 
     df=pd.read_excel(employee_file)
 
-    id_row=int(input("Which employee's info you want to update(ID): "))
-    index_row_update = df[df['employee_id']==id_row]
+    id_row=str(input("Which employee's info you want to update(ID): ")).strip()
+    index_row_update = df[df['employee_id'].astype(str)==id_row]
 
     if len(index_row_update) == 0:
         print(f"\n[!] Employee {id_row} was not found!\n")
@@ -300,7 +300,7 @@ def main():
             print(" [X] Exit")
             print("-" * 40)
 
-            choice=input("What action you want to do: ").strip().upper()
+            choice=input("Select an option: ").strip().upper()
 
             if choice=='A':
                 load_data(employee_file)
