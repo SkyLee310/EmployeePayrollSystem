@@ -119,10 +119,27 @@ def add_employee(employee_file):
         print(f"Employee {id} was already there!\n")
         return
 
-    name=input("Employee Name: ")
-    rate=float(input("Hourly Rate: "))
-    std_hour=float(input("Standard Working Hours: "))
-    ot_rate=float(input("Overtime Rate: "))
+    name=input("Employee Name: ").strip()
+    while True:
+        try:
+            rate = float(input("Hourly Rate: "))
+            break
+        except ValueError:
+            print("Invalid input! Please enter a number for Hourly Rate.")
+
+    while True:
+        try:
+            std_hour = float(input("Standard Working Hours: "))
+            break
+        except ValueError:
+            print("Invalid input! Please enter a number for Working Hours.")
+
+    while True:
+        try:
+            ot_rate = float(input("Overtime Rate: "))
+            break
+        except ValueError:
+            print("Invalid input! Please enter a number for Overtime Rate.")
 
     new_row=pd.DataFrame({'employee_id':[id],
                           'name':[name],
@@ -201,7 +218,7 @@ def main():
             print("Employee Payroll Management System")
             print("A.Load File\nB.Adding Employee\nC.Remove Employee\nD.Update Employee's Information\nE.Generate Pay Slip\n"
                   "To Exit, Type X")
-            choice=input("What action you want to do: ")
+            choice=input("What action you want to do: ").upper()
             if choice=='A':
                 load_data(employee_file)
             elif choice=='B':
